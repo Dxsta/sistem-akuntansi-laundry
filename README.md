@@ -6,6 +6,17 @@ Sistem informasi operasional dan akuntansi sederhana untuk usaha laundry. Aplika
 >
 > Demo di-host secara publik melalui GitHub Pages. Login tetap memerlukan akun Supabase yang memiliki role; pendaftaran pengguna publik dinonaktifkan.
 
+## Informasi login demo
+
+Masukkan username berikut pada kolom **Username atau email**:
+
+| Peran | Username |
+|---|---|
+| Owner | `desta@laundry.com` |
+| Karyawan/kasir bersama | `karyawan@laundry.com` |
+
+Kata sandi tidak dicantumkan karena README dan repository ini dapat diakses publik. Mintalah kata sandi kepada pemilik melalui saluran privat. Jika kata sandi yang pernah dibagikan di percakapan atau media publik masih digunakan, ganti segera melalui Supabase sebelum login.
+
 ## Identitas penyusun
 
 | Informasi | Keterangan |
@@ -52,17 +63,6 @@ Sistem ini ditujukan untuk membantu pencatatan dan pemantauan, bukan menggantika
 - Pemilik dapat mengakses menu akuntansi dan pengaturan akun kasir.
 - Kasir bersama dibatasi pada menu operasional.
 - Tombol logout tersedia dari menu profil di bagian bawah sidebar.
-
-### Informasi login demo
-
-Demo menggunakan akun Supabase berikut. Masukkan alamat email pada kolom **Username atau email**:
-
-| Peran | Username |
-|---|---|
-| Owner | `desta@laundry.com` |
-| Karyawan/kasir bersama | `karyawan@laundry.com` |
-
-Kata sandi **tidak dicantumkan di repository publik**. Untuk memperoleh akses, mintalah kata sandi kepada pemilik melalui saluran privat. Jika kata sandi yang pernah dibagikan di percakapan atau media publik masih digunakan, ganti segera melalui Supabase sebelum login. Jangan gunakan atau membagikan ulang kata sandi yang telah terekspos.
 
 ## Logika akuntansi
 
