@@ -15,7 +15,7 @@ Masukkan username berikut pada kolom **Username atau email**:
 | Owner | `desta@laundry.com` |
 | Karyawan/kasir bersama | `karyawan@laundry.com` |
 
-Kata sandi tidak dicantumkan karena README dan repository ini dapat diakses publik. Mintalah kata sandi kepada pemilik melalui saluran privat. Jika kata sandi yang pernah dibagikan di percakapan atau media publik masih digunakan, ganti segera melalui Supabase sebelum login.
+Kata sandi: 123456789
 
 ## Identitas penyusun
 
