@@ -1,5 +1,21 @@
 # Bagaskara Laundry — Sistem Informasi Akuntansi
 
+## Identitas Penyusun
+- **Nama:** Desta Bagaskara
+- **NIM:** 12030124120055
+- **Program Studi:** S1 Akuntansi, Universitas Diponegoro
+- **Mata Kuliah:** Pengkodean dan Pemrogaman
+- **Kelas:** E
+
+Disusun untuk memenuhi Ujian Tengah Semester Pengkodean dan Pemrogaman.
+
+## Tentang Sistem
+Bagaskara Laundry adalah aplikasi web untuk membantu pencatatan dan pengelolaan operasional usaha laundry kiloan maupun satuan. Sistem ini menghubungkan data pelanggan, pesanan, proses pengerjaan, pengambilan laundry, dan pembayaran agar aktivitas operasional tercatat dalam satu aplikasi.
+
+Pembayaran tunai dan QRIS menjadi dasar penyajian ringkasan pendapatan, riwayat pembayaran, jurnal umum, buku besar, serta laporan akuntansi. Aplikasi menyediakan akses pemilik dan pegawai dengan hak akses berbeda, autentikasi Supabase, dan tampilan responsif untuk desktop maupun ponsel.
+
+Data aplikasi disimpan pada Supabase. Repository ini berisi source code dan skema database, bukan salinan data pelanggan atau transaksi.
+
 ## Struktur
 - `frontend/HTML/index.html` — halaman aplikasi
 - `frontend/CSS/style.css` — tampilan responsif
