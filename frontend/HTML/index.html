@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bagaskara Laundry</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../JS/config.js"></script>
+  <script src="../JS/app.js" defer></script>
+</head>
+<body>
+  <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
+    <div class="auth-backdrop-art" aria-hidden="true">
+      <span class="auth-orbit auth-orbit-one"></span>
+      <span class="auth-orbit auth-orbit-two"></span>
+      <span class="auth-spark auth-spark-one">✦</span>
+      <span class="auth-spark auth-spark-two">✧</span>
+    </div>
+    <form class="auth-card" id="login-form">
+      <div class="auth-brand-lockup">
+        <img src="../Assets/bagaskara-laundry-logo.svg" alt="Logo Bagaskara Laundry" class="auth-logo">
+        <div><b>Bagaskara Laundry</b><span>LAUNDRY · OPERASIONAL · AKUNTANSI</span></div>
+      </div>
+      <div class="auth-heading">
+        <p class="auth-kicker"><span></span> PORTAL SISTEM</p>
+        <h1 id="auth-title">Senang melihatmu<br><em>kembali.</em></h1>
+        <p class="auth-copy">Masuk untuk melanjutkan aktivitas laundry hari ini.</p>
+      </div>
+      <label for="login-username">Username atau email
+        <span class="auth-input-wrap"><span class="auth-input-icon" aria-hidden="true">♙</span><input id="login-username" name="username" autocomplete="username" placeholder="Masukkan username" required autofocus></span>
+      </label>
+      <label for="login-password">Kata sandi
+        <span class="auth-input-wrap"><span class="auth-input-icon" aria-hidden="true">⌑</span><input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Masukkan kata sandi" required><button class="password-visibility" id="toggle-password-visibility" type="button" aria-label="Tampilkan kata sandi" aria-pressed="false">◉</button></span>
+      </label>
+      <p class="auth-error" id="login-error" role="alert" hidden></p>
+      <button class="primary auth-submit" id="login-submit" type="submit"><span>Masuk ke sistem</span><span class="auth-submit-arrow" aria-hidden="true">→</span></button>
+      <p class="auth-security"><span aria-hidden="true">✦</span> Akses aman untuk pemilik dan pegawai</p>
+    </form>
+    <p class="auth-footer">BAGASKARA LAUNDRY <span>·</span> RAPIH, BERSIH, TERPERCAYA</p>
+  </section>
+  <button class="sidebar-backdrop" id="sidebar-backdrop" type="button" aria-label="Tutup menu"></button>
+  <aside class="sidebar" id="sidebar" aria-label="Menu utama" aria-hidden="true">
+    <div class="sidebar-header">
+      <div class="brand"><img class="brand-logo" src="../Assets/bagaskara-laundry-logo.svg" alt="Logo Bagaskara Laundry"><div><b>Bagaskara Laundry</b><small>Sistem Informasi Laundry</small></div></div>
+      <button class="sidebar-close" id="sidebar-close" type="button" aria-label="Tutup menu">×</button>
+    </div>
+    <nav>
+      <div class="nav-group">
+        <span class="nav-heading">Dashboard</span>
+        <button class="nav-btn active" data-page="dashboard">▦ Ringkasan</button>
+      </div>
+      <div class="nav-group">
+        <span class="nav-heading">Operasional</span>
+        <button class="nav-btn" data-page="order-entry">▤ Pesanan Laundry</button>
+        <button class="nav-btn" data-page="work-queue-page">◷ Antrean Pengerjaan</button>
+        <button class="nav-btn" data-page="ready-pickup-page">▣ Laundry Siap Ambil</button>
+        <button class="nav-btn" data-page="customers-page">♙ Daftar Pelanggan</button>
+        <button class="nav-btn" data-page="orders-page">▤ Daftar Pesanan</button>
+        <button class="nav-btn" data-page="payments-page">＄ Riwayat Pembayaran</button>
+      </div>
+      <div class="nav-group" data-owner-only hidden>
+        <span class="nav-heading">Akuntansi</span>
+        <button class="nav-btn" data-page="general-journal">▤ Jurnal Umum</button>
+        <button class="nav-btn" data-page="general-ledger">▥ Buku Besar</button>
+        <button class="nav-btn" data-page="accounting-reports">▧ Laporan Akuntansi</button>
+        <button class="nav-btn" data-page="reports">▤ Laporan Pendapatan</button>
+      </div>
+      <div class="nav-group" data-owner-only hidden>
+        <span class="nav-heading">Pengaturan</span>
+        <button class="nav-btn" data-page="staff-account-page">♙ Akun Pegawai</button>
+      </div>
+    </nav>
+    <div class="sidebar-note">Sistem pencatatan pendapatan jasa laundry kiloan.</div>
+    <details class="profile-menu" id="profile-menu" hidden>
+      <summary class="profile-trigger" aria-label="Buka pengaturan profil">
+        <span class="profile-avatar" aria-hidden="true">BL</span>
+        <span class="profile-trigger-copy">
+          <span class="profile-trigger-label" id="sidebar-profile-name">Profil</span>
+          <span class="profile-trigger-role" id="sidebar-profile-role">Akun pengguna</span>
+        </span>
+        <span class="profile-chevron" aria-hidden="true">⌄</span>
+      </summary>
+      <div class="profile-dropdown">
+        <div class="profile-identity">
+          <span class="profile-avatar" aria-hidden="true">BL</span>
+          <span id="signed-in-label"></span>
+        </div>
+        <div class="profile-menu-divider"></div>
+        <button class="profile-logout" id="logout-button" type="button"><span aria-hidden="true">↪</span> Keluar dari akun</button>
+      </div>
+    </details>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-title"><button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Buka menu" aria-controls="sidebar" aria-expanded="false"><span></span><span></span><span></span></button><div class="topbar-heading"><p class="eyebrow">BAGASKARA LAUNDRY</p><h1 id="page-title">Dashboard</h1></div></div>
+      <div class="topbar-right">
+        <div class="topbar-clock"><span>WIB · UTC+7</span><time id="dashboard-clock" aria-label="Jam saat ini di zona waktu WIB">--:--:--</time><time id="dashboard-date" datetime="">Memuat tanggal...</time></div>
+        <span class="connection" id="connection-status">Memeriksa koneksi...</span>
+      </div>
+    </header>
+
+    <section class="page active" id="dashboard">
+      <div class="brand-slogan-banner"><div class="brand-slogan-copy"><p id="dashboard-welcome">Selamat Datang di Bagaskara Laundry</p><h2>In Us, You Can Trust!</h2></div></div>
+      <div class="welcome">
+        <div class="welcome-copy">
+          <div class="dashboard-location"><span class="location-pin" aria-hidden="true">⌖</span><div><b>Bagaskara Laundry</b><p>Jl. Karangrejo VI, Srondol Wetan, Banyumanik, Semarang</p><a href="https://www.google.com/maps/search/?api=1&amp;query=Jl.%20Karangrejo%20VI%2C%20Srondol%20Wetan%2C%20Banyumanik%2C%20Semarang" target="_blank" rel="noopener noreferrer">Lihat lokasi di peta ↗</a></div></div>
+        </div>
+        <figure class="dashboard-store-photo">
+          <img class="dashboard-store-image" src="../Assets/laundry-shop.jpg" alt="Foto tempat laundry dengan deretan mesin cuci">
+          <figcaption>Foto ilustrasi, bukan foto lokasi toko · <a href="https://commons.wikimedia.org/wiki/File:A_collection_of_washing_machines_in_a_laundry_shop.jpg" target="_blank" rel="noopener noreferrer">Fitrah 9131 / Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a></figcaption>
+        </figure>
+      </div>
+      <div class="stats stats-three">
+        <article class="stat-card"><span>Total Pesanan</span><strong id="stat-orders">0</strong><small>Seluruh pesanan tercatat</small></article>
+        <article class="stat-card" data-owner-only hidden><span>Pendapatan Hari Ini</span><strong id="stat-today-income">Rp0</strong><small>Total pembayaran hari ini</small></article>
+        <article class="stat-card" data-owner-only hidden><span>Pendapatan Bulan Ini</span><strong id="stat-month-income">Rp0</strong><small>Total pembayaran bulan berjalan</small></article>
+      </div>
+      <div class="panel" data-owner-only hidden>
+        <div class="panel-heading">
+          <div><h3>Grafik pendapatan</h3><p id="dashboard-chart-period-label">Pilih periode untuk melihat pendapatan.</p></div>
+          <div class="period-controls" data-period-controls="dashboard-chart">
+            <label>Periode<select id="dashboard-chart-granularity"><option value="day">Per hari</option><option value="month" selected>Per bulan</option><option value="year">Per tahun</option></select></label>
+            <label data-period-input="day">Tanggal<input id="dashboard-chart-date" type="date"></label>
+            <label data-period-input="month">Bulan<input id="dashboard-chart-month-input" type="month"></label>
+            <label data-period-input="year">Tahun<input id="dashboard-chart-year-input" type="number" min="2000" max="2100" step="1"></label>
+          </div>
+        </div>
+        <div class="income-chart-wrap" id="income-chart-wrap"><svg id="income-chart" class="income-chart" viewBox="0 0 1000 340" role="img" aria-label="Grafik pendapatan harian bulan ini"></svg><div id="income-chart-tooltip" class="income-chart-tooltip" role="tooltip" aria-hidden="true"></div></div>
+      </div>
+      <div class="panel"><div class="panel-heading"><div><h3>Pesanan terbaru</h3><p>Daftar pesanan laundry yang terakhir dicatat.</p></div><button class="primary" data-goto="operations">+ Tambah pesanan</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Pelanggan</th><th>Layanan dalam pesanan</th><th>Baris layanan</th><th>Total dibayar</th></tr></thead><tbody id="recent-orders"><tr><td colspan="5" class="empty">Belum ada data.</td></tr></table></div>
+      </div>
+    </section>
+
+    <section class="page" id="order-entry">
+      <div class="panel" id="order-entry-panel">
+        <div class="panel-heading"><div><h3>Pesanan laundry</h3><p>Tanggal pesanan tercatat otomatis sesuai waktu WIB saat pesanan disimpan. Pilih pelanggan, tambahkan satu atau beberapa layanan kiloan maupun satuan, lalu terima satu pembayaran.</p></div></div>
+        <form id="order-form" class="form-grid">
+          <label class="customer-picker-field">Pelanggan
+            <select id="order-customer" hidden aria-hidden="true"><option value="">Pilih pelanggan</option></select>
+            <div class="customer-picker" id="customer-picker">
+              <input id="customer-picker-search" type="text" placeholder="Cari nama pelanggan..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="customer-picker-options" aria-label="Cari dan pilih pelanggan">
+              <div class="customer-picker-options" id="customer-picker-options" role="listbox" hidden></div>
+            </div>
+          </label>
+          <div id="new-customer-fields" class="form-grid wide" hidden>
+            <label>Nama pelanggan<input id="customer-name" maxlength="100" placeholder="Contoh: Siti Rahma"></label>
+            <label>Nomor telepon<input id="customer-phone" maxlength="30" placeholder="08xxxxxxxxxx"></label>
+          </div>
+          <label>Kategori layanan<select id="order-category"><option value="kg">Kiloan</option><option value="item">Satuan</option></select></label>
+          <label>Jenis layanan<select id="order-service"></select></label>
+          <label><span id="order-quantity-label">Berat (kg)</span><input type="number" id="order-weight" min="0.1" step="0.1" placeholder="Contoh: 4.5"></label>
+          <label><span id="order-price-label">Harga per kg (Rp)</span><input type="number" id="order-price" min="1" step="1" value="7000"></label>
+          <div class="total-preview wide"><span>Subtotal layanan ini</span><strong id="item-total-preview">Rp0</strong></div>
+          <div class="wide form-actions"><button class="secondary" id="add-order-item" type="button">+ Tambahkan layanan ke pesanan</button></div>
+          <div class="wide">
+            <div class="panel-heading"><div><h3>Item dalam pesanan</h3><p id="order-item-count">Belum ada layanan ditambahkan.</p></div></div>
+            <div class="table-wrap order-items-list"><table><thead><tr><th>Layanan</th><th>Jumlah</th><th>Harga satuan</th><th>Subtotal</th><th></th></tr></thead><tbody id="order-items"><tr><td colspan="5" class="empty">Tambahkan layanan untuk mulai membuat pesanan.</td></tr></tbody></table></div>
+          </div>
+          <label>Metode pembayaran<select id="order-payment-method"><option>Tunai</option><option>QRIS</option></select></label>
+          <div class="total-preview wide"><span>Total pesanan dan pembayaran</span><strong class="order-total" id="order-total-preview">Rp0</strong></div>
+          <div class="wide form-actions"><button class="primary" type="submit">Simpan pesanan laundry</button></div>
+        </form>
+      </div>
+      <div class="panel" id="work-queue-panel">
+        <div class="panel-heading"><div><h3>Antrean pengerjaan</h3><p id="work-queue-count">Pesanan dikelompokkan berdasarkan tanggal masuk.</p></div></div>
+        <div class="table-wrap"><table><thead><tr><th>No. antrean</th><th>Masuk</th><th>Pelanggan</th><th>Layanan</th><th>Total</th><th>Selesai</th></tr></thead><tbody id="work-queue"></tbody></table></div>
+      </div>
+      <div class="panel price-list" id="price-list-panel">
+        <div class="panel-heading"><div><h3>Daftar harga</h3><p>Layanan kiloan tersedia reguler 2 hari dan express 24 jam. Tarif express adalah harga awal dan dapat disesuaikan kasir.</p></div></div>
+        <div class="price-list-grid" id="price-list-grid"></div>
+      </div>
+      <div class="panel" id="customer-list-panel"><div class="panel-heading"><div><h3>Daftar pelanggan</h3><p id="customer-count">0 pelanggan</p></div><input class="search" id="customer-search" placeholder="Cari pelanggan..."></div>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Telepon</th><th></th></tr></thead><tbody id="customer-list"></tbody></table></div>
+      </div>
+      <div class="panel" id="order-list-panel"><div class="panel-heading"><div><h3>Daftar pesanan</h3><p>Semua pesanan dibayar lunas saat penerimaan.</p></div><input class="search" id="order-search" placeholder="Cari pelanggan/layanan..."></div>
+        <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Pelanggan</th><th>Layanan dalam pesanan</th><th>Baris layanan</th><th>Total dibayar</th></tr></thead><tbody id="order-list"></tbody></table></div>
+      </div>
+      <div class="panel" id="payment-list-panel"><div class="panel-heading"><div><h3>Riwayat pembayaran</h3><p id="payment-count">Daftar penerimaan dari pelanggan.</p></div><label class="payment-method-filter">Metode pembayaran<select id="payment-method-filter"><option value="">Semua metode</option><option value="Tunai">Tunai</option><option value="QRIS">QRIS</option></select></label></div>
+        <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Pelanggan</th><th>ID Pesanan</th><th>Metode</th><th>Jumlah</th></tr></thead><tbody id="payment-list"></tbody></table></div>
+      </div>
+    </section>
+    <section class="page" id="work-queue-page"><div class="panel-heading"><div><h3>Antrean pengerjaan</h3><p>Pesanan dipisahkan per tanggal; nomor antrean dimulai kembali setiap hari.</p></div></div><div id="work-queue-container"></div></section>
+    <section class="page" id="ready-pickup-page">
+      <div class="panel">
+        <div class="panel-heading"><div><h3>Laundry siap ambil</h3><p id="ready-pickup-count">Pesanan selesai akan muncul di sini.</p></div><div class="ready-pickup-filters"><input class="search" id="ready-pickup-search" type="search" placeholder="Cari nama pelanggan..." aria-label="Cari nama pelanggan"><label for="ready-pickup-date">Tanggal pesanan<input id="ready-pickup-date" type="date"></label></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Tanggal pesanan</th><th>Pelanggan</th><th>Layanan</th><th>Total</th><th>Pengambilan</th></tr></thead><tbody id="ready-pickup-list"></tbody></table></div>
+      </div>
+    </section>
+    <section class="page" id="customers-page"><div class="panel-heading"><div><h3>Daftar pelanggan</h3><p>Kelola dan cari data pelanggan.</p></div></div><div id="customers-container"></div></section>
+    <section class="page" id="orders-page"><div class="panel-heading"><div><h3>Daftar pesanan</h3><p>Riwayat seluruh pesanan laundry.</p></div></div><div id="orders-container"></div></section>
+    <section class="page" id="payments-page"><div class="panel-heading"><div><h3>Riwayat pembayaran</h3><p>Daftar pembayaran yang diterima.</p></div></div><div id="payments-container"></div></section>
+
+    <section class="page" id="general-journal">
+      <div class="panel">
+        <div class="panel-heading"><div><h3>Jurnal umum</h3><p>Jurnal berpasangan dibuat otomatis dari setiap pembayaran lunas.</p></div><input class="search" id="journal-search" placeholder="Cari pelanggan, akun, atau referensi..."></div>
+        <p class="report-note">Pembayaran Tunai mendebit Kas Tunai, QRIS mendebit Bank QRIS, dan setiap pembayaran mengkredit Pendapatan Jasa Laundry dengan jumlah yang sama.</p>
+        <p id="journal-count" class="report-order-count">0 transaksi pembayaran</p>
+        <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Referensi</th><th>Keterangan</th><th>Akun</th><th>Debit</th><th>Kredit</th></tr></thead><tbody id="general-journal-rows"></tbody></table></div>
+      </div>
+    </section>
+    <section class="page" id="general-ledger">
+      <div class="panel">
+        <div class="panel-heading"><div><h3>Buku besar</h3><p>Mutasi dan saldo berjalan akun untuk setiap transaksi.</p></div>
+          <label class="ledger-account-label">Pilih akun<select id="ledger-account"><option value="kas_tunai">Kas Tunai</option><option value="bank_qris">Bank QRIS</option><option value="pendapatan_jasa">Pendapatan Jasa Laundry</option></select></label>
+        </div>
+        <p id="ledger-summary" class="report-order-count">Mutasi akun.</p>
+        <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Referensi</th><th>Keterangan</th><th>Debit</th><th>Kredit</th><th>Saldo</th></tr></thead><tbody id="general-ledger-rows"></tbody></table></div>
+      </div>
+    </section>
+    <section class="page" id="accounting-reports">
+      <div class="panel">
+        <div class="panel-heading"><div><h3>Laporan akuntansi</h3><p id="accounting-report-period">Neraca saldo dan laba rugi berdasarkan pembayaran tercatat.</p></div>
+          <div class="period-controls" data-period-controls="accounting-report">
+            <label>Periode<select id="accounting-report-granularity"><option value="day">Per hari</option><option value="month" selected>Per bulan</option><option value="year">Per tahun</option></select></label>
+            <label data-period-input="day">Tanggal<input id="accounting-report-date" type="date"></label>
+            <label data-period-input="month">Bulan<input id="accounting-report-month-input" type="month"></label>
+            <label data-period-input="year">Tahun<input id="accounting-report-year-input" type="number" min="2000" max="2100" step="1"></label>
+          </div>
+        </div>
+        <p class="report-note">Laporan disusun dari jurnal pembayaran: belum mencakup beban, modal, aset tetap, pajak, atau transaksi nonkas yang belum dicatat di aplikasi.</p>
+        <h4 class="daily-income-heading">Neraca saldo</h4>
+        <div class="table-wrap"><table><thead><tr><th>Kode</th><th>Nama akun</th><th>Debit</th><th>Kredit</th></tr></thead><tbody id="trial-balance-rows"></tbody><tfoot><tr><th colspan="2">Total</th><th id="trial-balance-debit">Rp0</th><th id="trial-balance-credit">Rp0</th></tr></tfoot></table></div>
+        <h4 class="daily-income-heading">Laporan laba rugi</h4>
+        <div class="table-wrap"><table><tbody id="income-statement-rows"></tbody><tfoot><tr><th colspan="2">Laba bersih</th><th id="net-income-total">Rp0</th></tr></tfoot></table></div>
+      </div>
+    </section>
+
+    <section class="page" id="reports" data-owner-only hidden>
+      <div class="panel"><div class="panel-heading">
+          <div><h3>Laporan pendapatan</h3><p id="report-period-label">Pilih periode untuk melihat rincian pendapatan.</p></div>
+          <div class="period-controls" data-period-controls="report">
+            <label>Periode<select id="report-granularity"><option value="day">Per hari</option><option value="month" selected>Per bulan</option><option value="year">Per tahun</option></select></label>
+            <label data-period-input="day">Tanggal<input id="report-date" type="date"></label>
+            <label data-period-input="month">Bulan<input id="report-month-input" type="month"></label>
+            <label data-period-input="year">Tahun<input id="report-year-input" type="number" min="2000" max="2100" step="1"></label>
+          </div>
+        </div>
+        <p class="report-note">Pendapatan dihitung dari pembayaran yang diterima, berdasarkan tanggal pembayaran. Setiap pesanan baru dibayar lunas saat diterima.</p>
+        <div class="stats stats-three period-summary">
+          <article class="stat-card"><span>Tunai</span><strong id="report-cash-total">Rp0</strong><small id="report-cash-caption">Pada periode terpilih</small></article>
+          <article class="stat-card"><span>QRIS</span><strong id="report-qris-total">Rp0</strong><small id="report-qris-caption">Pada periode terpilih</small></article>
+          <article class="stat-card"><span>Total Pendapatan</span><strong id="report-total">Rp0</strong><small id="report-payment-count">0 pembayaran</small></article>
+        </div>
+        <p id="report-order-count" class="report-order-count">0 pesanan dalam seluruh data</p>
+        <div class="table-wrap"><table><thead><tr><th>Periode</th><th>Tunai</th><th>QRIS</th><th>Total Pendapatan</th></tr></thead><tbody id="daily-income-report"></tbody></table></div>
+        <div class="report-export"><button class="secondary" id="export-csv">Ekspor pesanan CSV</button></div>
+      </div>
+    </section>
+    <section class="page" id="staff-account-page" data-owner-only hidden>
+      <div class="panel">
+        <div class="panel-heading"><div><h3>Akun kasir bersama</h3><p>Satu akun ini dapat digunakan oleh pegawai toko untuk fitur operasional.</p></div></div>
+        <form id="cashier-account-form" class="form-grid">
+          <label>Username<input value="Karyawan · karyawan@laundry.com" readonly aria-readonly="true"></label>
+          <label>Kata sandi baru<input id="cashier-password" type="password" minlength="12" maxlength="72" autocomplete="new-password" required placeholder="Minimal 12 karakter"></label>
+          <label>Ulangi kata sandi<input id="cashier-password-confirm" type="password" minlength="12" maxlength="72" autocomplete="new-password" required placeholder="Masukkan kembali kata sandi"></label>
+          <div class="wide report-note">Simpan kata sandi dengan aman dan bagikan hanya kepada pegawai. Karena akun ini digunakan bersama, riwayat tindakan tidak membedakan pegawai satu per satu.</div>
+          <div class="form-actions wide"><button class="primary" id="cashier-account-submit" type="submit">Buat / perbarui akun kasir</button></div>
+        </form>
+      </div>
+    </section>
+    <footer>Bagaskara Laundry · Sistem Akuntansi Pendapatan dan Penjualan Laundry Kiloan</footer>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>

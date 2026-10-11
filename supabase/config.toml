@@ -1,0 +1,4 @@
+project_id = "baamonowlouscdtwfqrk"
+
+[functions.manage-cashier]
+verify_jwt = false
