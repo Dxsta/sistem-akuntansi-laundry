@@ -53,6 +53,17 @@ Sistem ini ditujukan untuk membantu pencatatan dan pemantauan, bukan menggantika
 - Kasir bersama dibatasi pada menu operasional.
 - Tombol logout tersedia dari menu profil di bagian bawah sidebar.
 
+### Informasi login demo
+
+Demo menggunakan akun Supabase berikut. Masukkan alamat email pada kolom **Username atau email**:
+
+| Peran | Username |
+|---|---|
+| Owner | `desta@laundry.com` |
+| Karyawan/kasir bersama | `karyawan@laundry.com` |
+
+Kata sandi **tidak dicantumkan di repository publik**. Untuk memperoleh akses, mintalah kata sandi kepada pemilik melalui saluran privat. Jika kata sandi yang pernah dibagikan di percakapan atau media publik masih digunakan, ganti segera melalui Supabase sebelum login. Jangan gunakan atau membagikan ulang kata sandi yang telah terekspos.
+
 ## Logika akuntansi
 
 Saat satu transaksi disimpan, aplikasi membuat satu pembayaran lunas sebesar jumlah seluruh layanan di transaksi tersebut. Pembayaran dicatat satu kali dan menjadi dasar perhitungan pendapatan; nilai pesanan tidak dijumlahkan lagi sebagai pendapatan kedua.
